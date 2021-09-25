@@ -1,21 +1,33 @@
 // Setup the Controls
-var $breed_select = $('select.breed_select');
+var pageno = 0;
+var $breed_select = $('.breed_select');
 $breed_select.change(function() {
   var id = $(this).children(":selected").attr("id");
   getDogByBreed(id)
 });
 // Load all the Breeds
 function getBreeds() {
-  ajax_get('https://api.thedogapi.com/v1/breeds', function(data) {
+  ajax_get('https://api.thedogapi.com/v1/breeds?limit=10&page=' + pageno + '?api_key=a44cda37-f228-4f1f-a6e2-ba08e2a7024b', function(data) {
     populateBreedsSelect(data)
   });
 }
+// Next
+document.getElementById("next").addEventListener("click", ()=>{
+    pageno++;
+    getBreeds();
+})
+// Prev
+document.getElementById("prev").addEventListener("click", ()=>{
+    if(pageno!=0) 
+        pageno--;
+    getBreeds();
+})
 // Put the breeds in the Select control
 function populateBreedsSelect(breeds) {
   $breed_select.empty().append(function() {
     var output = '';
     $.each(breeds, function(key, value) {
-      output += '<option id="' + value.id + '">' + value.name + '</option>';
+      output += '<a class="breed-list" onclick="getDogByBreed(id)"><li id="' + value.id + '">' + value.name + '</li></a>';
     });
     return output;
   });
@@ -31,7 +43,8 @@ function getDogByBreed(breed_id) {
       $("#breed_data_table").append("<tr><td>Sorry, no Image for that breed yet</td></tr>");
     } else {
       //else display the breed image and data
-      displayBreed(data[0])
+    //   for(var i=0; i<10; i++)
+        displayBreed(data[0])
     }
   });
 }
@@ -42,7 +55,7 @@ function clearBreed() {
 }
 // display the breed image and data
 function displayBreed(image) {
-  $('#breed_image').attr('src', image.url);
+  $('#breed_image').attr('src', image.url);  
   $("#breed_data_table tr").remove();
 
   var breed_data = image.breeds[0]
@@ -75,3 +88,4 @@ function ajax_get(url, callback) {
 }
 // call the getBreeds function which will load all the Dog breeds into the select control
 getBreeds();
+getDogByBreed(1);
