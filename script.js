@@ -7,7 +7,7 @@ $breed_select.change(function() {
 });
 // Load all the Breeds
 function getBreeds() {
-  ajax_get('https://api.thedogapi.com/v1/breeds?limit=10&page=' + pageno + '?api_key=a44cda37-f228-4f1f-a6e2-ba08e2a7024b', function(data) {
+  ajax_get('https://api.thedogapi.com/v1/breeds?limit=10&page=' + pageno, function(data) {
     populateBreedsSelect(data)
   });
 }

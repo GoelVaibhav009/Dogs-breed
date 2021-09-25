@@ -1,7 +1,15 @@
-body {
+  body {
     background: #20262E;
     padding: 20px;
     font-family: Helvetica;
+  }
+
+  h1{
+      color: #fff;
+      text-align: center;
+  }
+
+  #main {
     display: flex;
     flex-wrap: wrap;
   }
@@ -37,4 +45,8 @@ body {
   .breed-list{
       cursor: pointer;
       text-align: left;
+  }
+
+  #heading{
+      display: block;
   }
